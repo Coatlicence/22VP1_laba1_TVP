@@ -19,14 +19,12 @@ public:
 
 		string rules;
 
-		vector<TreeElement> NextElements;
+		vector<TreeElement*> NextElements;
 
-		void AddElement(TreeElement);
+		void AddElement(TreeElement*);
 
 		void AddElement(string word, string rules);
 	};
 
 	TreeElement* RootElement = NULL;
-
-	void AddElement(TreeElement, string, string);
 };

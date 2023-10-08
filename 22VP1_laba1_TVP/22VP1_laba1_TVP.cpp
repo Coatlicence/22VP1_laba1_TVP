@@ -14,6 +14,8 @@ struct AlgorithmResult
     string rules;
 };
 
+AlgorithmResult FindInLanguage(string, Language);
+
 int main()
 {
     setlocale(LC_ALL, "ru");
@@ -30,7 +32,7 @@ int main()
     myLanguage.AddRule("I", "ccd", "1");
     myLanguage.AddRule("I", "ccId", "2");
 
-    /*
+    
     Tree t;
 
     auto root = t.RootElement;
@@ -40,8 +42,8 @@ int main()
     
     auto next = root->NextElements[1];
 
-    next.AddElement("ccccdd", "1");
-    */
+    next->AddElement("ccccdd", "1");
+    
 
     ///////////////////////////////////
 
