@@ -22,7 +22,7 @@ Language::Language(Dictionary td, AuxiliaryDictionary ad)
 	ADictionary = ad;
 }
 
-void Language::AddRule(string from, string to)
+void Language::AddRule(string from, string to, string NumberOfRule)
 {
 	if (!ADictionary.HasSymbol(from)) 
 		throw string("Auxiliary Dictionary doesnt have this symbol: " + from);
@@ -33,5 +33,5 @@ void Language::AddRule(string from, string to)
 			throw string("ADictionary and TDictionary doesnt have this symbol: " + c);
 	}
 
-	Rules.push_back(Rule(from, to));
+	Rules.push_back(Rule(from, to, NumberOfRule));
 }

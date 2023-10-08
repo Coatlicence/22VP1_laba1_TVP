@@ -8,14 +8,25 @@ using std::string;
 
 class Tree
 {
+public:
+	Tree();
+
 	struct TreeElement
 	{
+		TreeElement(string word, string rules);
+
 		string word;
 
 		string rules;
 
 		vector<TreeElement> NextElements;
+
+		void AddElement(TreeElement);
+
+		void AddElement(string word, string rules);
 	};
 
-	TreeElement Element;
+	TreeElement* RootElement = NULL;
+
+	void AddElement(TreeElement, string, string);
 };
