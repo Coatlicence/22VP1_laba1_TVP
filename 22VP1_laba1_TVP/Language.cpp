@@ -35,3 +35,14 @@ void Language::AddRule(string from, string to, string NumberOfRule)
 
 	Rules.push_back(Rule(from, to, NumberOfRule));
 }
+
+Rule Language::GetRule(string NumberOfRule)
+{
+	for (int i = 0; i < Rules.size(); i++)
+	{
+		auto rule = Rules[i];
+		
+		if (NumberOfRule == rule.GetNum())
+			return rule;
+	}
+}

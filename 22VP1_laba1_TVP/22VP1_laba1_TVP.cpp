@@ -35,6 +35,7 @@ int main()
     myLanguage.AddRule("A", "Ad", "3");
     myLanguage.AddRule("A", "d", "4");
     
+    /*
     Tree t;
 
     auto root = t.RootElement;
@@ -45,9 +46,15 @@ int main()
     auto next = root->NextElements[1];
 
     next->AddElement("ccccdd", "1");
-    
+
+
+    */
 
     ///////////////////////////////////
+
+    /*
+        myLanguage.GetRule("1"); // returns Rule with "I -> cdcc"
+    */
 
     cout << "Работу выполнили Резяков, Васильев, Князев. Группа 22ВП1" << endl << endl;
     

@@ -20,6 +20,8 @@ public:
 	string GetFrom() { return From; }
 
 	string GetTo() { return To; }
+
+	string GetNum() { return NumberOfRule; }
 };
 
 class Language
@@ -35,5 +37,6 @@ public:
 
 	void AddRule(string from, string to, string NumberOfRules);
 
+	Rule GetRule(string);
 };
 
