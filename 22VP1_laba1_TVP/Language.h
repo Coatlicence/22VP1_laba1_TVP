@@ -12,8 +12,10 @@ class Rule
 
 	string To;
 
+	string NumberOfRule;
+
 public:
-	Rule(string From, string To) { this->From = From; this->To = To; }
+	Rule(string From, string To, string NumberOfRule) { this->From = From; this->To = To; this->NumberOfRule = NumberOfRule; }
 
 	string GetFrom() { return From; }
 
@@ -31,7 +33,7 @@ class Language
 public: 
 	Language(Dictionary td, AuxiliaryDictionary ad);
 
-	void AddRule(string from, string to);
+	void AddRule(string from, string to, string NumberOfRules);
 
 };
 
