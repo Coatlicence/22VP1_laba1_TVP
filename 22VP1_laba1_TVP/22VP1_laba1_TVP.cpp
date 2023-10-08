@@ -27,11 +27,13 @@ int main()
     AuxiliaryDictionary auxiliary;
     auxiliary.AddSymbol("I");
     auxiliary.SetRootSymbol("I");
+    auxiliary.AddSymbol("A");
 
     Language myLanguage(terminal, auxiliary);
-    myLanguage.AddRule("I", "ccd", "1");
-    myLanguage.AddRule("I", "ccId", "2");
-
+    myLanguage.AddRule("I", "cdcc", "1");
+    myLanguage.AddRule("I", "cAdcc", "2");
+    myLanguage.AddRule("A", "Ad", "3");
+    myLanguage.AddRule("A", "d", "4");
     
     Tree t;
 
@@ -64,7 +66,7 @@ AlgorithmResult FindInLanguage(string word, Language lang)
 {
     AlgorithmResult result;
 
-    ///
+    
 
     return result;
 }
