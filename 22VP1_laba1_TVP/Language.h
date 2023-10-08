@@ -38,5 +38,7 @@ public:
 	void AddRule(string from, string to, string NumberOfRules);
 
 	Rule GetRule(string);
+
+	vector<Rule> GetRules() { return Rules; }
 };
 
