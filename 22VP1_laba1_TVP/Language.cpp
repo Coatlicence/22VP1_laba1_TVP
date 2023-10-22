@@ -1,9 +1,9 @@
 #include "Language.h"
 
-Language::Language(Dictionary td, AuxiliaryDictionary ad)
+Language::Language(Dictionary* td, AuxiliaryDictionary* ad)
 {
-	auto TerminalSymbols = td.GetSymbols();
-	auto AuxiliarySymbols = ad.GetSymbols();
+	auto TerminalSymbols = td->GetSymbols();
+	auto AuxiliarySymbols = ad->GetSymbols();
 
 	for (int i = 0; i < TerminalSymbols.size(); i++)
 	{
@@ -22,27 +22,38 @@ Language::Language(Dictionary td, AuxiliaryDictionary ad)
 	ADictionary = ad;
 }
 
-void Language::AddRule(string from, string to, string NumberOfRule)
+void Language::AddRule(string from, string to)
 {
-	if (!ADictionary.HasSymbol(from)) 
+	if (!ADictionary->HasSymbol(from)) 
 		throw string("Auxiliary Dictionary doesnt have this symbol: " + from);
 
 	for (char c : to) 
 	{
-		if ((!ADictionary.HasSymbol(string(1, c))) && (!TDictionary.HasSymbol(string(1, c))))
+		if ((!ADictionary->HasSymbol(string(1, c))) && (!TDictionary->HasSymbol(string(1, c))))
 			throw string("ADictionary and TDictionary doesnt have this symbol: " + c);
 	}
 
-	Rules.push_back(Rule(from, to, NumberOfRule));
+	Rules.push_back(Rule(from, to));
 }
 
-Rule Language::GetRule(string NumberOfRule)
+vector<Rule> Language::GetRules()
 {
+	return Rules;
+}
+
+vector<Rule> Language::GetRules(string From)
+{
+	vector<Rule> RulesWithFromSymbol;
+
 	for (int i = 0; i < Rules.size(); i++)
 	{
-		auto rule = Rules[i];
-		
-		if (NumberOfRule == rule.GetNum())
-			return rule;
+		if (Rules[i].GetFrom() == From) RulesWithFromSymbol.push_back(Rules[i]);
 	}
+
+	return RulesWithFromSymbol;
+}
+
+AuxiliaryDictionary Language::GetAuxiliaryDictionary()
+{
+	return *ADictionary;
 }

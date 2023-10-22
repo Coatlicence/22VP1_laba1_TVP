@@ -10,5 +10,7 @@ public:
 	AuxiliaryDictionary();
 
 	void SetRootSymbol(string NewRootSymbol);
+
+	string GetRootSymbol();
 };
 

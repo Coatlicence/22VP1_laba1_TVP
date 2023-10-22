@@ -11,3 +11,8 @@ void AuxiliaryDictionary::SetRootSymbol(string NewRootSymbol)
 	else
 		throw string("This symbol: " + NewRootSymbol + " doesnt exist on dictionary");
 }
+
+string AuxiliaryDictionary::GetRootSymbol()
+{
+	return RootSymbol;
+}

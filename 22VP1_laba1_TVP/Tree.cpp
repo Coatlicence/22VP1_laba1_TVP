@@ -14,12 +14,12 @@ void Tree::TreeElement::AddElement(TreeElement* el)
 
 void Tree::TreeElement::AddElement(string word, string rules)
 {
-	auto el = new Tree::TreeElement(word, rules);
+	Tree::TreeElement* el = new Tree::TreeElement(word, rules);
 
 	NextElements.push_back(el);
 }
 
-Tree::Tree()
+Tree::Tree(string word, string rules)
 {
-	RootElement = new TreeElement("I", "0");
+	RootElement = new Tree::TreeElement(word, rules);
 }

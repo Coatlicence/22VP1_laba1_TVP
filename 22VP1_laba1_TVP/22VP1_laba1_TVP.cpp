@@ -15,52 +15,49 @@ struct AlgorithmResult
 };
 
 AlgorithmResult FindInLanguage(string, Language);
+string GetFirstAuxiliariSymbol(string, AuxiliaryDictionary);
+string ApplyRule(string, Rule);
+Tree BuildTree(Language);
+void insert(Language lang, Tree::TreeElement* from, int maxCounter);
+
+
+Dictionary* terminal = new Dictionary();
+AuxiliaryDictionary* auxiliary = new AuxiliaryDictionary();
+Language myLanguage(terminal, auxiliary);
+
 
 int main()
 {
     setlocale(LC_ALL, "ru");
 
-    Dictionary terminal;
-    terminal.AddSymbol("c");
-    terminal.AddSymbol("d");
+    terminal->AddSymbol("c");
+    terminal->AddSymbol("d");
 
-    AuxiliaryDictionary auxiliary;
-    auxiliary.AddSymbol("I");
-    auxiliary.SetRootSymbol("I");
-    auxiliary.AddSymbol("A");
+    auxiliary->AddSymbol("I");
+    auxiliary->SetRootSymbol("I");
+    auxiliary->AddSymbol("A");
 
-    Language myLanguage(terminal, auxiliary);
-    myLanguage.AddRule("I", "cdcc", "1");
-    myLanguage.AddRule("I", "cAdcc", "2");
-    myLanguage.AddRule("A", "Ad", "3");
-    myLanguage.AddRule("A", "d", "4");
+    myLanguage.AddRule("I", "cdcc");
+    myLanguage.AddRule("I", "cAdcc");
+    myLanguage.AddRule("A", "Ad");
+    myLanguage.AddRule("A", "d");
     
-    /*
-    Tree t;
-
-    auto root = t.RootElement;
-
-    root->AddElement("ccd", "1");
-    root->AddElement("ccId", "2");
-    
-    auto next = root->NextElements[1];
-
-    next->AddElement("ccccdd", "1");
 
 
-    */
+    BuildTree(myLanguage);
 
-    ///////////////////////////////////
 
-    /*
-        myLanguage.GetRule("1"); // returns Rule with "I -> cdcc"
-    */
 
     cout << "Работу выполнили Резяков, Васильев, Князев. Группа 22ВП1" << endl << endl;
     
+    
+
     cout << "Введите слово: " << endl;
 
     string word;
+    
+    
+
 
     cin >> word;
 
@@ -76,4 +73,60 @@ AlgorithmResult FindInLanguage(string word, Language lang)
     
 
     return result;
+}
+
+Tree BuildTree(Language lang)
+{
+    int maxCounter = 10;
+
+    Tree tree(auxiliary->GetRootSymbol(), "-");
+
+    insert(lang, tree.RootElement, maxCounter);
+
+    return tree;
+}
+
+void insert(Language lang, Tree::TreeElement* from, int maxCounter)
+{
+    if (maxCounter <= 0) return;
+
+    auto rules = lang.GetRules(GetFirstAuxiliariSymbol(from->word, lang.GetAuxiliaryDictionary()));
+
+    if (rules.size() <= 0) return;
+
+    for (int i = 0; i < rules.size(); i++)
+    {
+        Tree::TreeElement* el = new Tree::TreeElement(ApplyRule(from->word, rules[i]), "1");
+
+        from->AddElement(el);
+
+        insert(lang, el, --maxCounter);
+    }
+}
+
+string GetFirstAuxiliariSymbol(string word, AuxiliaryDictionary ad)
+{
+    for (char c : word)
+    {
+        for (string symbol : ad.GetSymbols())
+        {
+            if (string(1, c) == symbol) return string(1, c);
+        }
+    }
+
+    return "";
+}
+
+string ApplyRule(string word, Rule rule)
+{
+    string newword = word;
+
+    string fromsymbol = rule.GetFrom();
+
+    int pos = newword.find(fromsymbol);
+
+    newword.erase(pos, fromsymbol.size());
+    newword.insert(pos, rule.GetTo());
+
+    return newword;
 }

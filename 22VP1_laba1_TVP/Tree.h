@@ -9,8 +9,6 @@ using std::string;
 class Tree
 {
 public:
-	Tree();
-
 	struct TreeElement
 	{
 		TreeElement(string word, string rules);
@@ -26,5 +24,7 @@ public:
 		void AddElement(string word, string rules);
 	};
 
-	TreeElement* RootElement = NULL;
+	Tree(string word, string rules);
+
+	TreeElement* RootElement;
 };
