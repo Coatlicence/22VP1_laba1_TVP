@@ -24,87 +24,35 @@ int main()
 {
     setlocale(LC_ALL, "ru");
 
-    Dictionary terminal;
-    terminal.AddSymbol("c");
-    terminal.AddSymbol("d");
+    Dictionary* terminal = new Dictionary();
+    terminal->AddSymbol("c");
+    terminal->AddSymbol("d");
 
-    AuxiliaryDictionary auxiliary;
-    auxiliary.AddSymbol("I");
-    auxiliary.SetRootSymbol("I");
-    auxiliary.AddSymbol("A");
+    AuxiliaryDictionary* auxiliary = new AuxiliaryDictionary();
+    auxiliary->AddSymbol("I");
+    auxiliary->SetRootSymbol("I");
+    auxiliary->AddSymbol("A");
 
-    Language myLanguage(terminal, auxiliary);
-    myLanguage.AddRule("I", "cdcc", "1");
-    myLanguage.AddRule("I", "cAdcc", "2");
-    myLanguage.AddRule("A", "Ad", "3");
-    myLanguage.AddRule("A", "d", "4");
+    Language myLanguage = Language(terminal, auxiliary);
+    myLanguage.AddRule("I", "cdcc");
+    myLanguage.AddRule("I", "cAdcc");
+    myLanguage.AddRule("A", "Ad");
+    myLanguage.AddRule("A", "d");
     
-    /*
-    Tree t;
-
 
     BuildTree(myLanguage);
 
-
-
     cout << "Работу выполнили Резяков, Васильев, Князев. Группа 22ВП1" << endl << endl;
-    
-    
-
+  
     cout << "Введите слово: " << endl;
 
     string word;
-    
-    
-
 
     cin >> word;
 
     auto result = FindInLanguage(word, myLanguage);
 
     cout << result.rules << endl;
-}
-
-string Convert(int pos, string word, string rule)
-{
-    string newword = word;
-    
-    newword.insert(pos, myLanguage.GetRule(rule).GetTo());
-
-    return newword;
-}
-
-Tree BuildTree(Tree::TreeElement* el, string word, string rule) 
-{
-    static int counter = 0;
-    int maxCounter = 100;
-
-    auto symbols = auxiliary.GetSymbols();
-
-    auto rules = myLanguage.GetRules();
-
-    for (int i = 0; i < word.size(); i++)
-    {
-        auto symbol = word[i]; 
-
-        for (int j = 0; j < symbols.size(); j++)
-        {
-            if (symbol == symbols[j][0])
-            {
-                for (int k = 0; k < rules.size(); k++)
-                {
-                    if (symbol == rules[k].GetFrom()[0])
-                    {
-                        el->AddElement(Convert(i, word, rules[k].GetNum()), el->rules + rules[i].GetNum());
-                        return Tree();
-                        //BuildTree();
-                    }
-                }
-            }
-        }
-    }
-
-    
 }
 
 AlgorithmResult FindInLanguage(string word, Language lang)
@@ -120,7 +68,7 @@ Tree BuildTree(Language lang)
 {
     int maxCounter = 10;
 
-    Tree tree(auxiliary->GetRootSymbol(), "-");
+    Tree tree(lang.GetAuxiliaryDictionary().GetRootSymbol(), "-");
 
     insert(lang, tree.RootElement, maxCounter);
 
