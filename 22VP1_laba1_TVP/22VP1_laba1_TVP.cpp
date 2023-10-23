@@ -14,10 +14,10 @@ struct AlgorithmResult
     string rules;
 };
 
-AlgorithmResult FindInLanguage(string, Language);
+AlgorithmResult FindInTree(Language lang, Tree::TreeElement*, string);
 string GetFirstAuxiliariSymbol(string, AuxiliaryDictionary);
 string ApplyRule(string, Rule);
-Tree BuildTree(Language);
+Tree BuildTree(Language, int);
 void insert(Language lang, Tree::TreeElement* from, int maxCounter);
 
 int main()
@@ -34,39 +34,99 @@ int main()
     auxiliary->AddSymbol("A");
 
     Language myLanguage = Language(terminal, auxiliary);
-    myLanguage.AddRule("I", "cdcc");
-    myLanguage.AddRule("I", "cAdcc");
-    myLanguage.AddRule("A", "Ad");
-    myLanguage.AddRule("A", "d");
+    myLanguage.AddRule("I", "cdcc", "1");
+    myLanguage.AddRule("I", "cAdcc", "2");
+    myLanguage.AddRule("A", "Ad", "3");
+    myLanguage.AddRule("A", "d", "4");
+    
+    cout << "Работу выполнили Резяков, Васильев, Князев. Группа 22ВП1" << endl << endl << "Правила:" << endl;
+
+    auto rules = myLanguage.GetRules();
+
+    for (int i = 0; i < rules.size(); i++)
+    {
+        cout << rules[i].GetFrom() << " -> " << rules[i].GetTo() << endl;
+    }
+    cout << endl;
+
+    auto tree = BuildTree(myLanguage, 15);    
+
+    bool work = true;
+    while (work)
+    {
+        cout << "Введите слово: ";
+
+        string word;
+
+        cin >> word;
+
+        // Exit from while
+        if ((word == "exit")  (word == "выход"))
+        {
+            work = false;
+            
+            cout << "Совершен выход из цикла программы" << endl;
+
+            break;
+        }
+            
+
+        auto result = FindInTree(myLanguage, tree.RootElement, word);
+
+        // Results of work
+        if (result.result)
+        {
+            cout << "Такое слово найдено в заданном языке" << endl;
+            cout << "Правила составления слова: " << result.rules << endl;
+        }
+        else
+            cout << "Такого слова нет в заданном языке" << endl;
+
+        cout << result.word << endl << endl;
+    }
     
 
-    BuildTree(myLanguage);
-
-    cout << "Работу выполнили Резяков, Васильев, Князев. Группа 22ВП1" << endl << endl;
-  
-    cout << "Введите слово: " << endl;
-
-    string word;
-
-    cin >> word;
-
-    auto result = FindInLanguage(word, myLanguage);
-
-    cout << result.rules << endl;
 }
 
-AlgorithmResult FindInLanguage(string word, Language lang)
+AlgorithmResult FindInTree(Language lang, Tree::TreeElement* from, string word)
 {
     AlgorithmResult result;
 
+    result.result = false;
+    result.word = word;
+    result.rules = "";
+
+    if (GetFirstAuxiliariSymbol(word, lang.GetAuxiliaryDictionary()) != "")
+    {
+        return result;
+    }
+
+    if (from == nullptr)
+    {
+        return result;
+    }
+
+    if (from->word == word)
+    {
+        result.result = true;
+        result.rules = from->rules;
+
+        return result;
+    }
     
+    for (int i = 0; i < from->NextElements.size(); i++)
+    {
+        auto result = FindInTree(lang, from->NextElements[i], word);
+
+        if (result.result) return result;
+    }
 
     return result;
 }
 
-Tree BuildTree(Language lang)
+Tree BuildTree(Language lang, int depth)
 {
-    int maxCounter = 10;
+    int maxCounter = depth;
 
     Tree tree(lang.GetAuxiliaryDictionary().GetRootSymbol(), "-");
 
@@ -85,7 +145,7 @@ void insert(Language lang, Tree::TreeElement* from, int maxCounter)
 
     for (int i = 0; i < rules.size(); i++)
     {
-        Tree::TreeElement* el = new Tree::TreeElement(ApplyRule(from->word, rules[i]), "1");
+        Tree::TreeElement* el = new Tree::TreeElement(ApplyRule(from->word, rules[i]), string(from->rules + rules[i].GetNumOfRule()));
 
         from->AddElement(el);
 

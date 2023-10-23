@@ -12,13 +12,21 @@ class Rule
 
 	string To;
 
+	string NumOfRule;
+
 public:
-	Rule(string From, string To) { this->From = From; this->To = To; }
+	Rule(string From, string To, string NumOfRule) 
+	{
+		this->From = From; 
+		this->To = To; 
+		this->NumOfRule = NumOfRule; 
+	}
 
 	string GetFrom() { return From; }
 
 	string GetTo() { return To; }
 
+	string GetNumOfRule() { return NumOfRule; }
 };
 
 class Language
@@ -32,7 +40,7 @@ class Language
 public: 
 	Language(Dictionary* td, AuxiliaryDictionary* ad);
 
-	void AddRule(string from, string to);
+	void AddRule(string from, string to, string NumOfRule);
 
 	vector<Rule> GetRules();
 
